@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#102a43">
+    <title>RocketLocker | Database test interface</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-content">
+        <p class="eyebrow">310-2309 Database System · Group LockerRocket</p>
+        <h1>RocketLocker</h1>
+        <p>Database workflow testing interface</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="notice" aria-label="Demo data notice">
+        <strong>Browser demo</strong>
+        <span>Records are stored in this browser only and are not written to PostgreSQL.</span>
+        <button id="reset-demo" class="button button-quiet" type="button">Reset demo data</button>
+      </section>
+
+      <section class="overview" aria-label="System summary">
+        <article class="stat-card"><span>Campuses</span><strong id="campus-count">0</strong></article>
+        <article class="stat-card"><span>Members</span><strong id="member-count">0</strong></article>
+        <article class="stat-card"><span>Lockers</span><strong id="locker-count">0</strong></article>
+        <article class="stat-card"><span>Open reservations</span><strong id="reservation-count">0</strong></article>
+      </section>
+
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+
+      <section class="workbench" aria-label="Add records">
+        <form id="campus-form" class="panel">
+          <h2>Add campus</h2>
+          <label>Campus code<input name="code" maxlength="20" required></label>
+          <label>Campus name<input name="name" maxlength="120" required></label>
+          <label>Address<input name="address" required></label>
+          <button class="button" type="submit">Add campus</button>
+        </form>
+
+        <form id="member-form" class="panel">
+          <h2>Add member</h2>
+          <label>University ID<input name="universityId" maxlength="40" required></label>
+          <div class="form-row">
+            <label>First name<input name="firstName" maxlength="80" required></label>
+            <label>Last name<input name="lastName" maxlength="80" required></label>
+          </div>
+          <label>Email<input name="email" type="email" maxlength="254" required></label>
+          <label>Phone <span class="optional">(optional)</span><input name="phone" type="tel" maxlength="30"></label>
+          <button class="button" type="submit">Add member</button>
+        </form>
+
+        <form id="locker-form" class="panel">
+          <h2>Add locker</h2>
+          <label>Campus<select name="campusId" required><option value="">Add a campus first</option></select></label>
+          <label>Locker number<input name="lockerNumber" maxlength="30" required></label>
+          <label>Size
+            <select name="size" required>
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+            </select>
+          </label>
+          <button class="button" type="submit">Add locker</button>
+        </form>
+
+        <form id="reservation-form" class="panel">
+          <h2>Make reservation</h2>
+          <label>Member<select name="memberId" required><option value="">Add a member first</option></select></label>
+          <label>Available locker<select name="lockerId" required><option value="">Add an available locker first</option></select></label>
+          <div class="form-row">
+            <label>Starts<input name="startsAt" type="datetime-local" required></label>
+            <label>Ends<input name="endsAt" type="datetime-local" required></label>
+          </div>
+          <button class="button" type="submit">Create reservation</button>
+        </form>
+      </section>
+
+      <section class="panel records-panel">
+        <div class="section-heading">
+          <div><p class="eyebrow">Current browser data</p><h2>Reservations</h2></div>
+          <span class="table-note">Pending and active reservations occupy a locker</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Member</th><th>Locker</th><th>Campus</th><th>Period</th><th>Status</th><th><span class="visually-hidden">Actions</span></th></tr></thead>
+            <tbody id="reservation-rows"></tbody>
+          </table>
+        </div>
+        <p id="empty-state" class="empty-state">No reservations yet. Add a campus, member, and locker to test a reservation.</p>
+      </section>
+
+      <section class="panel records-panel">
+        <div class="section-heading"><div><p class="eyebrow">Inventory</p><h2>Lockers</h2></div></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Locker</th><th>Campus</th><th>Size</th><th>Status</th></tr></thead>
+            <tbody id="locker-rows"></tbody>
+          </table>
+        </div>
+        <p id="locker-empty-state" class="empty-state">No lockers yet.</p>
+      </section>
+    </main>
+    <footer>RocketLocker database design · Crow’s Foot ERD and schema in the repository</footer>
+  </body>
+</html>
