@@ -1,0 +1,195 @@
+<mxfile host="app.diagrams.net" modified="2026-11-27T07:15:00.000Z" agent="Gemini" version="24.7.17" type="device">
+  <diagram id="RocketLockerFlow" name="System Flow">
+    <mxGraphModel dx="1420" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1150" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title Banner -->
+        <mxCell id="title_box" value="&lt;b&gt;RocketLocker System Flow (ระบบตู้ล็อกเกอร์อัตโนมัติ)&lt;/b&gt;&lt;br&gt;Group: LockerRocket | Course: 310-2309 Database System" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;fontColor=#ffffff;strokeColor=#0f172a;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1280" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== LANE 1: CUSTOMER RENTAL & RETURN ==================== -->
+        <mxCell id="lane_customer" value="&lt;b&gt;1. Customer Flow (ลูกค้าทั่วไป : การฝากของ &amp; การรับของคืน)&lt;/b&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#3b82f6;strokeWidth=2;startSize=35;fontSize=13;fontColor=#1e3a8a;" vertex="1" parent="1">
+          <mxGeometry x="40" y="95" width="840" height="1010" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c_start" value="เริ่มต้นใช้งาน&lt;br&gt;(Start)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontStyle=1;fontSize=12;" vertex="1" parent="lane_customer">
+          <mxGeometry x="340" y="55" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c_step1" value="1. เลือกสถานที่ตั้งตู้ (Locker)&lt;br&gt;และเลือกช่องล็อกเกอร์ที่ว่าง (Available Slot)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=12;" vertex="1" parent="lane_customer">
+          <mxGeometry x="275" y="135" width="270" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c_step2" value="2. กรอกข้อมูลลูกค้า (ชื่อ, เบอร์โทร)&lt;br&gt;และเลือกระยะเวลา / อัตราค่าบริการ (ServiceRate)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=12;" vertex="1" parent="lane_customer">
+          <mxGeometry x="275" y="220" width="270" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c_step3" value="3. ตั้งรหัสผ่าน PIN ส่วนตัว&lt;br&gt;สำหรับใช้เปิดช่องล็อกเกอร์ด้วยตัวเอง" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=12;" vertex="1" parent="lane_customer">
+          <mxGeometry x="275" y="305" width="270" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c_step4" value="4. บันทึกข้อมูลลงฐานข้อมูล (Rental)&lt;br&gt;• บันทึกเวลาเริ่มเช่า + Snapshot ราคา ณ ตอนเช่า&lt;br&gt;• อัปเดตสถานะช่องล็อกเกอร์เป็น 'ไม่ว่าง (Occupied)'" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=12;" vertex="1" parent="lane_customer">
+          <mxGeometry x="245" y="390" width="330" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c_step5" value="5. เปิดช่อง วางสัมภาระ และปิดประตูตู้&lt;br&gt;(ฝากของสำเร็จ)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0e7ff;strokeColor=#4f46e5;fontSize=12;" vertex="1" parent="lane_customer">
+          <mxGeometry x="275" y="485" width="270" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c_step6" value="6. เมื่อต้องการรับของคืน: เลือกหมายเลขช่อง&lt;br&gt;และกรอกรหัสผ่าน PIN ที่ตั้งไว้" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=12;" vertex="1" parent="lane_customer">
+          <mxGeometry x="275" y="565" width="270" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c_dec_pin" value="รหัสผ่าน PIN&lt;br&gt;ถูกต้องหรือไม่?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontStyle=1;fontSize=12;" vertex="1" parent="lane_customer">
+          <mxGeometry x="330" y="650" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c_wrong_pin" value="แจ้งเตือนรหัสผ่านไม่ถูกต้อง&lt;br&gt;(กรอกรหัสผ่านใหม่)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fecaca;strokeColor=#dc2626;fontSize=11;" vertex="1" parent="lane_customer">
+          <mxGeometry x="560" y="665" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c_step7" value="7. คำนวณค่าบริการตามระยะเวลาที่ใช้จริง&lt;br&gt;และดำเนินการชำระเงิน (Payment)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=12;" vertex="1" parent="lane_customer">
+          <mxGeometry x="275" y="765" width="270" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c_step8" value="8. บันทึกข้อมูลการชำระเงิน &amp; เวลาสิ้นสุดการเช่า&lt;br&gt;• ปลดล็อกตู้ รับสัมภาระคืน&lt;br&gt;• อัปเดตสถานะช่องล็อกเกอร์เป็น 'ว่าง (Available)'" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=12;" vertex="1" parent="lane_customer">
+          <mxGeometry x="245" y="850" width="330" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="c_end" value="จบการทำงาน&lt;br&gt;(End)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontStyle=1;fontSize=12;" vertex="1" parent="lane_customer">
+          <mxGeometry x="340" y="940" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Customer Arrows -->
+        <mxCell id="e_c1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_customer" source="c_start" target="c_step1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_c2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_customer" source="c_step1" target="c_step2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_c3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_customer" source="c_step2" target="c_step3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_c4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_customer" source="c_step3" target="c_step4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_c5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_customer" source="c_step4" target="c_step5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_c6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_customer" source="c_step5" target="c_step6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_c7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_customer" source="c_step6" target="c_dec_pin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_c8" value="ไม่ใช่ (No)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;fontColor=#dc2626;fontStyle=1;" edge="1" parent="lane_customer" source="c_dec_pin" target="c_wrong_pin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_c8_back" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;dashed=1;strokeColor=#dc2626;" edge="1" parent="lane_customer" source="c_wrong_pin" target="c_step6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="650" y="592" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_c9" value="ถูกต้อง (Yes)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;fontColor=#16a34a;fontStyle=1;" edge="1" parent="lane_customer" source="c_dec_pin" target="c_step7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_c10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_customer" source="c_step7" target="c_step8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_c11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_customer" source="c_step8" target="c_end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== LANE 2: ADMIN MANAGEMENT ==================== -->
+        <mxCell id="lane_admin" value="&lt;b&gt;2. Admin Flow (ผู้ดูแลระบบ)&lt;/b&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#8b5cf6;strokeWidth=2;startSize=35;fontSize=13;fontColor=#4c1d95;" vertex="1" parent="1">
+          <mxGeometry x="910" y="95" width="410" height="680" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a_start" value="ผู้ดูแลระบบเข้าสู่ระบบ&lt;br&gt;(Admin Login)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#7e22ce;fontStyle=1;fontSize=12;" vertex="1" parent="lane_admin">
+          <mxGeometry x="125" y="55" width="160" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a_menu" value="เลือกเมนูจัดการระบบ&lt;br&gt;(Admin Dashboard)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#6d28d9;fontStyle=1;fontSize=12;" vertex="1" parent="lane_admin">
+          <mxGeometry x="120" y="140" width="170" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a_opt1" value="กำหนด / ปรับปรุงอัตราค่าบริการ&lt;br&gt;(Update ServiceRate)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#7e22ce;fontSize=12;" vertex="1" parent="lane_admin">
+          <mxGeometry x="85" y="255" width="240" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a_opt2" value="จัดการข้อมูลตู้และสถานะช่องล็อกเกอร์&lt;br&gt;(เช่น ชำรุด / ปิดปรับปรุง)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#7e22ce;fontSize=12;" vertex="1" parent="lane_admin">
+          <mxGeometry x="85" y="330" width="240" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a_opt3" value="ตรวจสอบประวัติการใช้งาน &amp; ดูรายงานรายได้&lt;br&gt;(View Rental &amp; Payment Reports)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#7e22ce;fontSize=12;" vertex="1" parent="lane_admin">
+          <mxGeometry x="85" y="405" width="240" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a_save" value="อัปเดตและบันทึกข้อมูลลงฐานข้อมูล&lt;br&gt;(PostgreSQL Database)" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=12;" vertex="1" parent="lane_admin">
+          <mxGeometry x="75" y="495" width="260" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a_end" value="ออกจากระบบ&lt;br&gt;(End)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#7e22ce;fontStyle=1;fontSize=12;" vertex="1" parent="lane_admin">
+          <mxGeometry x="135" y="590" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Admin Arrows -->
+        <mxCell id="e_a1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_admin" source="a_start" target="a_menu">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_admin" source="a_menu" target="a_opt1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_admin" source="a_menu" target="a_opt2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="45" y="180" />
+              <mxPoint x="45" y="355" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_a4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_admin" source="a_menu" target="a_opt3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="30" y="180" />
+              <mxPoint x="30" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_a5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_admin" source="a_opt1" target="a_save">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="365" y="280" />
+              <mxPoint x="365" y="522" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_a6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_admin" source="a_opt2" target="a_save">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="350" y="355" />
+              <mxPoint x="350" y="522" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_a7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_admin" source="a_opt3" target="a_save">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;" edge="1" parent="lane_admin" source="a_save" target="a_end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== LEGEND BOX ==================== -->
+        <mxCell id="legend_box" value="&lt;b&gt;คำอธิบายสัญลักษณ์ (Legend)&lt;/b&gt;&lt;br&gt;&lt;br&gt;• วงรี (สีเขียว/ม่วง): จุดเริ่มต้นและสิ้นสุดการทำงาน&lt;br&gt;• สี่เหลี่ยมมุมมน (สีฟ้า/ม่วง): ขั้นตอนการทำงานฝั่งผู้ใช้หรือผู้ดูแล&lt;br&gt;• สี่เหลี่ยมมีแถบข้าง (สีเหลือง): ขั้นตอนที่ระบบอ่าน/เขียนข้อมูลลง Database&lt;br&gt;• สี่เหลี่ยมข้าวหลามตัด (สีแดง/ม่วงเข้ม): จุดตัดสินใจ / ตรวจสอบเงื่อนไข" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;align=left;spacingLeft=15;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="910" y="805" width="410" height="150" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

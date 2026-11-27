@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RocketLocker System — Week 1 Test Console</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --text: #182230;
+      --muted: #5b6778;
+      --border: #d9e1ec;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --ok-bg: #dcfce7;
+      --ok-text: #166534;
+      --busy-bg: #fee2e2;
+      --busy-text: #991b1b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 1.5rem;
+    }
+
+    header .container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    h1 { margin: 0; font-size: 1.4rem; }
+    .subtitle { margin: 0.2rem 0 0; color: var(--muted); font-size: 0.92rem; }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .container { max-width: 1080px; margin: 0 auto; }
+
+    main {
+      padding: 1.5rem;
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    section.card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+    }
+
+    section.card h2 { margin: 0 0 0.75rem; font-size: 1.1rem; }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: #f8fafc;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .status-Available { background: var(--ok-bg); color: var(--ok-text); }
+    .status-Occupied  { background: var(--busy-bg); color: var(--busy-text); }
+
+    form { display: grid; gap: 0.85rem; }
+
+    label {
+      display: grid;
+      gap: 0.3rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    input, select, button {
+      font: inherit;
+      padding: 0.55rem 0.7rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    button {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover { background: var(--primary-hover); }
+
+    .output-box {
+      margin-top: 0.75rem;
+      padding: 0.85rem;
+      border-radius: 8px;
+      background: #f8fafc;
+      border: 1px dashed var(--border);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      padding: 1rem 1.5rem 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div>
+        <h1>RocketLocker System — Test Console</h1>
+        <p class="subtitle">Group: LockerRocket | 310-2309 Database System — หน้าทดสอบจำลองการทำงานตามโครงสร้าง ER Diagram (Week 1)</p>
+      </div>
+      <span class="badge">Week 1 Prototype</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="schema-heading">
+      <h2 id="schema-heading">Database Schema Overview (7 Tables)</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Table</th>
+              <th scope="col">Primary Key</th>
+              <th scope="col">Foreign Keys / Highlights</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>Locker</code></td><td><code>lockerID</code></td><td>ตู้ล็อกเกอร์หลัก (<code>locationName</code>, <code>lockerStatus</code>)</td></tr>
+            <tr><td><code>LockerSlot</code></td><td><code>(lockerID, slotNumber)</code></td><td>Weak Entity ของ <code>Locker</code> ใช้ Composite PK</td></tr>
+            <tr><td><code>Customer</code></td><td><code>customerID</code></td><td>ข้อมูลลูกค้า (<code>customerName</code>, <code>phone</code>)</td></tr>
+            <tr><td><code>Admin</code></td><td><code>adminID</code></td><td>ผู้ดูแลระบบ (<code>adminName</code>, <code>username</code>, <code>passwordHash</code>)</td></tr>
+            <tr><td><code>ServiceRate</code></td><td><code>rateID</code></td><td>FK <code>adminID</code> → <code>Admin</code> (<code>rateName</code>, <code>pricePerHour</code>)</td></tr>
+            <tr><td><code>Rental</code></td><td><code>rentalID</code></td><td>FK <code>customerID</code>, Composite FK <code>(lockerID, slotNumber)</code>, FK <code>rateID</code> + Snapshot <code>appliedRatePrice</code></td></tr>
+            <tr><td><code>Payment</code></td><td><code>paymentID</code></td><td>UNIQUE FK <code>rentalID</code> → <code>Rental</code> (รองรับความสัมพันธ์ 0..1)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="grid-2">
+      <section class="card" aria-labelledby="slots-heading">
+        <h2 id="slots-heading">Mock LockerSlot Status</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">lockerID</th>
+                <th scope="col">locationName</th>
+                <th scope="col">slotNumber</th>
+                <th scope="col">slotStatus</th>
+              </tr>
+            </thead>
+            <tbody id="slot-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="calc-heading">
+        <h2 id="calc-heading">Simulate Rental &amp; Payment</h2>
+        <form id="rental-form">
+          <label>
+            ชื่อลูกค้า (customerName)
+            <input type="text" id="customer-name" placeholder="เช่น พิพรรธน์ คล้ายสุข" required />
+          </label>
+          <label>
+            เลือกช่องล็อกเกอร์ที่ว่าง (LockerSlot)
+            <select id="slot-select" required></select>
+          </label>
+          <label>
+            เลือกอัตราค่าบริการ (ServiceRate)
+            <select id="rate-select" required>
+              <option value="20">R01 — Standard Hourly (20.00 THB/hr)</option>
+              <option value="35">R02 — Large Slot Hourly (35.00 THB/hr)</option>
+            </select>
+          </label>
+          <label>
+            ตั้งรหัส PIN (pinCode 4 หลัก)
+            <input type="text" id="pin-code" pattern="[0-9]{4}" maxlength="4" placeholder="เช่น 4829" required />
+          </label>
+          <label>
+            จำนวนชั่วโมงที่เช่า
+            <input type="number" id="hours" min="1" max="48" value="2" required />
+          </label>
+          <label>
+            ช่องทางชำระเงิน (paymentMethod)
+            <select id="payment-method">
+              <option value="PromptPay QR">PromptPay QR</option>
+              <option value="Cash">Cash</option>
+              <option value="Credit Card">Credit Card</option>
+            </select>
+          </label>
+          <button type="submit">จำลองการเช่า (Save Rental &amp; Snapshot Rate)</button>
+        </form>
+        <div id="rental-result" class="output-box" role="status" aria-live="polite">
+          กรอกข้อมูลด้านบนเพื่อทดสอบจำลองการเช่า การเก็บ appliedRatePrice และการอัปเดตสถานะช่องล็อกเกอร์
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    RocketLocker System (Group: LockerRocket) • Week 1 Static Prototype (Mock data only)
+  </footer>
+
+  <script>
+    const mockSlots = [
+      { lockerID: "L001", locationName: "อาคารเรียนรวม ชั้น 1", slotNumber: "01", slotStatus: "Occupied" },
+      { lockerID: "L001", locationName: "อาคารเรียนรวม ชั้น 1", slotNumber: "02", slotStatus: "Available" },
+      { lockerID: "L002", locationName: "โรงอาหารกลาง", slotNumber: "01", slotStatus: "Available" }
+    ];
+
+    const slotTableBody = document.getElementById("slot-table-body");
+    const slotSelect = document.getElementById("slot-select");
+    const rentalForm = document.getElementById("rental-form");
+    const rentalResult = document.getElementById("rental-result");
+
+    function renderSlots() {
+      slotTableBody.replaceChildren();
+      slotSelect.replaceChildren();
+
+      for (const slot of mockSlots) {
+        const tr = document.createElement("tr");
+
+        const tdLocker = document.createElement("td");
+        tdLocker.textContent = slot.lockerID;
+
+        const tdLoc = document.createElement("td");
+        tdLoc.textContent = slot.locationName;
+
+        const tdNum = document.createElement("td");
+        tdNum.textContent = slot.slotNumber;
+
+        const tdStatus = document.createElement("td");
+        const badge = document.createElement("span");
+        badge.className = `status status-${slot.slotStatus}`;
+        badge.textContent = slot.slotStatus;
+        tdStatus.appendChild(badge);
+
+        tr.append(tdLocker, tdLoc, tdNum, tdStatus);
+        slotTableBody.appendChild(tr);
+
+        if (slot.slotStatus === "Available") {
+          const option = document.createElement("option");
+          option.value = `${slot.lockerID}|${slot.slotNumber}`;
+          option.textContent = `${slot.lockerID} - ช่อง ${slot.slotNumber} (${slot.locationName})`;
+          slotSelect.appendChild(option);
+        }
+      }
+
+      if (slotSelect.options.length === 0) {
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "ไม่มีช่องล็อกเกอร์ว่างในขณะนี้";
+        slotSelect.appendChild(option);
+      }
+    }
+
+    rentalForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const customerName = document.getElementById("customer-name").value.trim();
+      const [lockerID, slotNumber] = slotSelect.value.split("|");
+      const appliedRatePrice = Number(document.getElementById("rate-select").value);
+      const pinCode = document.getElementById("pin-code").value.trim();
+      const hours = Number(document.getElementById("hours").value);
+      const paymentMethod = document.getElementById("payment-method").value;
+
+      const slot = mockSlots.find(
+        (item) => item.lockerID === lockerID && item.slotNumber === slotNumber && item.slotStatus === "Available"
+      );
+      if (!slot) {
+        rentalResult.textContent = "ไม่สามารถเช่าได้: ไม่มีช่องล็อกเกอร์ว่างให้เลือก";
+        return;
+      }
+
+      slot.slotStatus = "Occupied";
+      const amount = appliedRatePrice * hours;
+      renderSlots();
+
+      rentalResult.textContent =
+        `จำลองการเช่าสำเร็จ — ลูกค้า: ${customerName} | ช่อง: (${slot.lockerID}, ${slot.slotNumber}) | ` +
+        `PIN: ${pinCode} | appliedRatePrice: ${appliedRatePrice.toFixed(2)} THB/hr | ` +
+        `ยอดชำระ (${hours} ชม.): ${amount.toFixed(2)} THB (${paymentMethod})`;
+      rentalForm.reset();
+    });
+
+    renderSlots();
+  </script>
+</body>
+</html>
